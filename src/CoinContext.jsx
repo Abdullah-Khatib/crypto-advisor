@@ -15,7 +15,7 @@ const CoinContextProvider = (props)=>{
     const fetchAllCoins = async()=>{
         const options = {
             method: 'GET', 
-            headers: {accept: 'application/json', 'x-cg-demo-api-key': 'CG-RjAQhCNY4WAbV42TY6BwPu9u'}
+            headers: {accept: 'application/json', 'x-cg-demo-api-key': import.meta.env.VITE_COINGECKO_API_KEY}
         };
 
         const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.name}&order=market_cap_desc&per_page=50&page=1&sparkline=false&locale=${i18n.language}`;
