@@ -7,7 +7,7 @@ import { CoinContext } from './CoinContext';
 
 function Header({ setView }) {
     const { t, i18n } = useTranslation();
-    const { setCurrency } = useContext(CoinContext);
+    const { currency, setCurrency } = useContext(CoinContext);
     // 1. Initialize mobile menu state
     const [isOpen, setIsOpen] = useState(false);
 
@@ -65,7 +65,7 @@ function Header({ setView }) {
                         <li><a href="#" className="hover:text-[#749A96]">{t('services')}</a></li>
                         <li><a href="#contact" onClick={(e) => { e.preventDefault(); setView('contact'); setIsOpen(false); }} className="hover:text-[#749A96]">{t('contact')}</a></li>
                         
-                        <select id="currency-select" onChange={currencyHandler} className='bg-[#343434] text-[#dde3c0] border border-[#948466]/40 focus:outline-none focus:ring-2 focus:ring-[#749A96] rounded px-1'>
+                        <select id="currency-select" onChange={currencyHandler} value={currency?.name || 'usd'} className='bg-[#343434] text-[#dde3c0] border border-[#948466]/40 focus:outline-none focus:ring-2 focus:ring-[#749A96] rounded px-1'>
                             <option value="usd">$</option>
                             <option value="eur">€</option>
                             <option value="gbp">£</option>
@@ -94,13 +94,13 @@ function Header({ setView }) {
                         className="md:hidden bg-[#242424] overflow-hidden border-t border-[#948466]/20"
                     >
                         <ul className="flex flex-col items-center gap-4 py-4 text-lg text-[#dde3c0]/90">
-                            <li><a href="#" onClick={() => setIsOpen(false)} className="hover:text-[#749A96]">{t('home')}</a></li>
+                            <li><a href="#home" onClick={(e) => { e.preventDefault(); setView('home'); setIsOpen(false); }} className="hover:text-[#749A96]">{t('home')}</a></li>
                             <li><a href="#" onClick={() => setIsOpen(false)} className="hover:text-[#749A96]">{t('about')}</a></li>
                             <li><a href="#" onClick={() => setIsOpen(false)} className="hover:text-[#749A96]">{t('services')}</a></li>
-                            <li><a href="#" onClick={() => setIsOpen(false)} className="hover:text-[#749A96]">{t('contact')}</a></li>
+                            <li><a href="#contact" onClick={(e) => { e.preventDefault(); setView('contact'); setIsOpen(false); }} className="hover:text-[#749A96]">{t('contact')}</a></li>
                             
                             <div className="flex items-center gap-4 pt-2 border-t border-[#948466]/20 w-full justify-center">
-                                <select id="mobile-currency-select" onChange={currencyHandler} className='bg-[#343434] text-[#dde3c0] border border-[#948466]/40 focus:outline-none focus:ring-2 focus:ring-[#749A96] rounded px-2 py-1'>
+                                <select id="mobile-currency-select" onChange={currencyHandler} value={currency?.name || 'usd'} className='bg-[#343434] text-[#dde3c0] border border-[#948466]/40 focus:outline-none focus:ring-2 focus:ring-[#749A96] rounded px-2 py-1'>
                                     <option value="usd">$</option>
                                     <option value="eur">€</option>
                                     <option value="gbp">£</option>

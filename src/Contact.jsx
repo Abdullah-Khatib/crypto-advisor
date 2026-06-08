@@ -35,25 +35,25 @@ function Contact() {
         const emailRegex = /\S+@\S+\.\S+/; // matches smthn@smthn.smthn
 
         if (!formData.name.trim()) {
-            tempErrors.name = "Full name is required.";
+            tempErrors.name = t('name_required');
         } else if (formData.name.trim().length < 2) {
-            tempErrors.name = "Name must be at least 2 characters long.";
+            tempErrors.name = t('name_short');
         }
 
         if (!formData.email.trim()) {
-            tempErrors.email = "Email address is required.";
+            tempErrors.email = t('email_required');
         } else if (!emailRegex.test(formData.email)) {
-            tempErrors.email = "Please enter a valid email address (e.g., name@domain.com).";
+            tempErrors.email = t('email_invalid');
         }
 
         if (!formData.purpose) {
-            tempErrors.purpose = "Please select your purpose of contact.";
+            tempErrors.purpose = t('purpose_required');
         }
 
         if (!formData.message.trim()) {
-            tempErrors.message = "Message text body cannot be empty.";
+            tempErrors.message = t('message_empty');
         } else if (formData.message.trim().length < 15) {
-            tempErrors.message = "Please describe your request in more detail (minimum 15 characters).";
+            tempErrors.message = t('message_short');
         }
 
         setErrors(tempErrors);
@@ -76,18 +76,18 @@ function Contact() {
             <div className="bg-[#2a2a2a] border-2 border-[#948466]/20 p-6 md:p-8 rounded-xl shadow-xl max-w-lg w-full transition-all">
                 
                 <h2 className="text-2xl font-bold border-b border-[#948466]/20 pb-3 mb-6 text-center">
-                    {i18n.language === 'ar' ? 'اتصل بمستشارينا' : 'Contact Our Advisors'}
+                    {t('contact_title')}
                 </h2>
 
                 {isSubmitted ? (
                     <div className="bg-[#749a96]/10 border border-[#749a96] text-[#749a96] p-6 rounded-lg text-center my-4 animate-fadeIn">
-                        <p className="font-bold text-lg mb-1">Message Sent!</p>
-                        <p className="text-sm opacity-90">Thank you for reaching out. Our cryptocurrency analytics team will review your inquiry shortly.</p>
+                        <p className="font-bold text-lg mb-1">{t('message_sent')}</p>
+                        <p className="text-sm opacity-90">{t('message_thanks')}</p>
                         <button 
                             onClick={() => setIsSubmitted(false)}
                             className="mt-4 text-xs font-mono underline hover:text-[#dde3c0]"
                         >
-                            Send another message
+                            {t('send_another')}
                         </button>
                     </div>
                 ) : (
@@ -95,13 +95,13 @@ function Contact() {
                         
                         {/* Name Field */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">Full Name</label>
+                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">{t('full_name')}</label>
                             <input
                                 type="text"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                placeholder="Your Name"
+                                placeholder={t('full_name_placeholder')}
                                 className={`bg-[#343434] border ${errors.name ? 'border-[#b56152]' : 'border-[#948466]/40'} rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#749A96] text-[#dde3c0] placeholder-[#948466]/40`}
                             />
                             {errors.name && <span className="text-xs text-[#b56152] font-mono mt-0.5">{errors.name}</span>}
@@ -109,13 +109,13 @@ function Contact() {
 
                         {/* Email Field */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">Email Address</label>
+                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">{t('email_address')}</label>
                             <input
                                 type="text"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                placeholder="crypto@example.com"
+                                placeholder={t('email_placeholder')}
                                 className={`bg-[#343434] border ${errors.email ? 'border-[#b56152]' : 'border-[#948466]/40'} rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#749A96] text-[#dde3c0] placeholder-[#948466]/40`}
                             />
                             {errors.email && <span className="text-xs text-[#b56152] font-mono mt-0.5">{errors.email}</span>}
@@ -123,31 +123,31 @@ function Contact() {
 
                         {/* Purpose Box */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">Purpose of Contact</label>
+                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">{t('purpose')}</label>
                             <select
                                 name="purpose"
                                 value={formData.purpose}
                                 onChange={handleChange}
                                 className={`bg-[#343434] border ${errors.purpose ? 'border-[#b56152]' : 'border-[#948466]/40'} rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#749A96] text-[#dde3c0]`}
                             >
-                                <option value="">-- Select Option --</option>
-                                <option value="technical">Technical Support / App Issues</option>
-                                <option value="api">CoinGecko Data Feed Delay</option>
-                                <option value="suggestion">Advisor Strategy Suggestion</option>
-                                <option value="other">Other / Business Inquiries</option>
+                                <option value="">{t('purpose_select')}</option>
+                                <option value="technical">{t('purpose_technical')}</option>
+                                <option value="api">{t('purpose_api')}</option>
+                                <option value="suggestion">{t('purpose_suggestion')}</option>
+                                <option value="other">{t('purpose_other')}</option>
                             </select>
                             {errors.purpose && <span className="text-xs text-[#b56152] font-mono mt-0.5">{errors.purpose}</span>}
                         </div>
 
                         {/* Message Box */}
                         <div className="flex flex-col gap-1">
-                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">Your Message</label>
+                            <label className="text-xs font-mono font-semibold text-[#948466] uppercase tracking-wider">{t('message')}</label>
                             <textarea
                                 name="message"
                                 rows="4"
                                 value={formData.message}
                                 onChange={handleChange}
-                                placeholder="Provide your inquiry details here..."
+                                placeholder={t('message_placeholder')}
                                 maxLength={500}
                                 className={`bg-[#343434] border ${errors.message ? 'border-[#b56152]' : 'border-[#948466]/40'} rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#749A96] text-[#dde3c0] placeholder-[#948466]/40 resize-none`}
                             />
@@ -166,7 +166,7 @@ function Contact() {
                             type="submit"
                             className="bg-[#dde3c0] text-[#343434] font-bold py-2 rounded-lg text-sm mt-2 hover:bg-[#749a96] hover:text-[#dde3c0] transition-colors duration-200"
                         >
-                            Submit Message
+                            {t('submit_btn')}
                         </button>
                     </form>
                 )}
