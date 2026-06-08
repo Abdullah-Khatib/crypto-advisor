@@ -60,14 +60,41 @@ function Contact() {
         return Object.keys(tempErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    
         if (validateForm()) {
-            console.log("Form submitted successfully! Packet:", formData);
-            setIsSubmitted(true);
-            
-            setFormData({ name: '', email: '', purpose: '', message: '' });
+            try {
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json"
+                    },
+                    body: JSON.stringify({
+                        // Your verified access token
+                        access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY, 
+                        name: formData.name,
+                        email: formData.email,
+                        purpose: formData.purpose,
+                        message: formData.message
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success || response.ok) {
+                    console.log("Form data sent to your inbox cleanly!");
+                    setIsSubmitted(true);
+                    // Wipe inputs clear upon successful submission
+                    setFormData({ name: '', email: '', purpose: '', message: '' });
+                } else {
+                    alert("Something went wrong with the submission server. Please try again.");
+                }
+            } catch (error) {
+                console.error("Network link failure handling contact:", error);
+                alert("Could not reach the server. Please check your internet connection.");
+            }
         }
     };
 
